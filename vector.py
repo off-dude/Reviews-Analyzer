@@ -4,7 +4,7 @@ from langchain_core.documents import Document
 import os
 import pandas as pd
 
-file_path = r"C:\Users\ROHAN\OneDrive\CSS\New folder\reviews\realistic_restaurant_reviews.csv"
+file_path = "realistic_restaurant_reviews.csv"
 df = pd.read_csv(file_path)
 embeddings = OllamaEmbeddings(model="mxbai-embed-large")
 
