@@ -1,4 +1,8 @@
 langchain
 langchain-ollama
 langchain-chroma
-pandaspython
+pandas
+streamlit
+plotly
+textblob
+scikit-learn
