@@ -1,14 +1,14 @@
 import os
 import pandas as pd
-from langchain_google_genai import GoogleGenerativeAIEmbeddings  # <-- Change here
+from langchain_community.embeddings import HuggingFaceEmbeddings  # <-- Local open-source alternative
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 
 file_path = "realistic_restaurant_reviews.csv"
 df = pd.read_csv(file_path)
 
-# Uses Gemini to create vector numbers
-embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
+# Download and run the embedding math model straight inside your server memory
+embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 db_location = "./chrome_langchain_db"
 add_documents = not os.path.exists(db_location)
