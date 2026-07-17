@@ -1,6 +1,6 @@
 langchain
 langchain-chroma
-langchain-google-genai
+sentence-transformers
 pandas
 streamlit
 plotly
