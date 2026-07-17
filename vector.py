@@ -1,12 +1,14 @@
-from langchain_ollama import OllamaEmbeddings
-from langchain_chroma import Chroma
-from langchain_core.documents import Document
 import os
 import pandas as pd
+from langchain_google_genai import GoogleGenerativeAIEmbeddings  # <-- Change here
+from langchain_chroma import Chroma
+from langchain_core.documents import Document
 
 file_path = "realistic_restaurant_reviews.csv"
 df = pd.read_csv(file_path)
-embeddings = OllamaEmbeddings(model="mxbai-embed-large")
+
+# Uses Gemini to create vector numbers
+embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
 
 db_location = "./chrome_langchain_db"
 add_documents = not os.path.exists(db_location)
