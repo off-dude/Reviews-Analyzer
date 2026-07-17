@@ -5,29 +5,10 @@ from textblob import TextBlob
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 
-from langchain_google_genai import ChatGoogleGenerativeAI  # <-- Change here
-from langchain_core.prompts import ChatPromptTemplate
 from vector import retriever, df  
 
 st.set_page_config(page_title="Pizza Restaurant AI & Analytics", layout="wide")
 st.title("🍕 Pizza Restaurant Review Analyzer & Insights")
-
-@st.cache_resource
-def load_llm():
-    # Uses Gemini 1.5 Flash (Lightweight, lightning fast, free tier)
-    return ChatGoogleGenerativeAI(model="gemini-1.5-flash")
-
-model = load_llm()
-
-template = """
-You are an expert in answering questions about a pizza restaurant
-
-Here are some relevant reviews: {reviews}
-
-Here is the question to answer: {question}
-"""
-prompt = ChatPromptTemplate.from_template(template)
-chain = prompt | model
 
 # ==========================================
 # DATA SCIENCE PROCESSING BACKGROUND LAYERS
@@ -70,17 +51,18 @@ with tab1:
     question = st.text_input("What would you like to know about customer experiences?")
     
     if question:
-        with st.spinner("Searching vectors and running Gemini..."):
+        with st.spinner("Searching vectors locally..."):
+            # Fetch matching documents from your local server storage
             retrieved_reviews = retriever.invoke(question)
-            result = chain.invoke({"reviews": retrieved_reviews, "question": question})
             
-            st.markdown("### 📝 AI Answer:")
-            # LangChain Chat Models return a message object, .content extracts the string text
-            st.info(result.content if hasattr(result, 'content') else result)
+            # Combine the relevant items to create an analytical summary
+            st.markdown("### 📝 Verified Review Context Summary:")
             
-        with st.expander("🔍 View Raw Retrieved Context Reviews"):
-            for i, doc in enumerate(retrieved_reviews):
-                st.write(f"**Doc {i+1}** (Rating: {doc.metadata.get('rating')}): {doc.page_content}")
+            summary_box = "Here are the top matches found in your data regarding your query:\n\n"
+            for doc in retrieved_reviews:
+                summary_box += f"• *[{doc.metadata.get('rating')} Stars]*: {doc.page_content}\n\n"
+            
+            st.info(summary_box)
 
 with tab2:
     st.header("Data Distribution & Sentiment Analytics")
