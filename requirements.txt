@@ -1,5 +1,6 @@
 langchain
 langchain-chroma
+langchain-community
 sentence-transformers
 pandas
 streamlit
