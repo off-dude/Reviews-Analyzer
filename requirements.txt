@@ -1,6 +1,6 @@
 langchain
-langchain-ollama
 langchain-chroma
+langchain-google-genai
 pandas
 streamlit
 plotly
