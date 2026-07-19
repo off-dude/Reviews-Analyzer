@@ -1,13 +1,12 @@
 import os
 import pandas as pd
-from langchain_community.embeddings import HuggingFaceEmbeddings  # <-- Local open-source alternative
+from langchain_community.embeddings import HuggingFaceEmbeddings  
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 
 file_path = "realistic_restaurant_reviews.csv"
 df = pd.read_csv(file_path)
 
-# Download and run the embedding math model straight inside your server memory
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 db_location = "./chrome_langchain_db"
